@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# mount the new rootfs
+mount -t jffs2 /dev/mtdblock4 /overlay
+
+mkdir -p /overlay/rootfs /overlay/rw /overlay/work
+mount -t overlay overlay /overlay/rootfs -o lowerdir=/,upperdir=/overlay/rw,workdir=/overlay/work
+mkdir -p /overlay/rootfs/oldroot
+cd /overlay/rootfs
+
+# mount /dev and /sys for chroot environment
+# /dev/pts, /dev/shm, /proc, /tmp and /run will be mounted by inittab from fstab
+mount -t sysfs sysfs /sys
+mount --rbind /sys /overlay/rootfs/sys/
+mount --rbind /dev /overlay/rootfs/dev/
+
+# exec chroot /chroot /sbin/init
+pivot_root . oldroot
+exec /sbin/init

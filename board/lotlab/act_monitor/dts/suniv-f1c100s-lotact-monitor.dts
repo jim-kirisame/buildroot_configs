@@ -96,7 +96,12 @@
 
 			partition@300000 {
 				label = "rootfs";
-				reg = <0x300000 0x500000>;
+				reg = <0x300000 0x480000>;
+			};
+
+			partition@780000 {
+				label = "overlay";
+				reg = <0x780000 0x80000>;
 			};
 		};
 	};
