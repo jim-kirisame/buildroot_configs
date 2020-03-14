@@ -1,0 +1,27 @@
+From 18578e3c4604a8f8fcb03e32b5b10461ee19903a Mon Sep 17 00:00:00 2001
+From: jiangming1399 <jiangming1399@163.com>
+Date: Sat, 14 Mar 2020 10:53:49 +0800
+Subject: [PATCH 2/2] Remove unused emmc2 config in sunxi-u-boot.dtsi
+
+---
+ arch/arm/dts/sunxi-u-boot.dtsi | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/arch/arm/dts/sunxi-u-boot.dtsi b/arch/arm/dts/sunxi-u-boot.dtsi
+index fdd4c80..8a9f2a6 100644
+--- a/arch/arm/dts/sunxi-u-boot.dtsi
++++ b/arch/arm/dts/sunxi-u-boot.dtsi
+@@ -1,10 +1,6 @@
+ #include <config.h>
+ 
+ / {
+-	aliases {
+-		mmc1 = &mmc2;
+-	};
+-
+ 	binman {
+ 		filename = "u-boot-sunxi-with-spl.bin";
+ 		pad-byte = <0xff>;
+-- 
+2.25.1
+

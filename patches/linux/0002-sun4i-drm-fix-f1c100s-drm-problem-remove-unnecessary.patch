@@ -1,0 +1,40 @@
+From 3c5369a7e1ccfa054b682ac4620cfc612541b090 Mon Sep 17 00:00:00 2001
+From: jiangming1399 <jiangming1399@163.com>
+Date: Sat, 14 Mar 2020 11:07:13 +0800
+Subject: [PATCH 2/2] sun4i-drm: fix f1c100s drm problem, remove unnecessary
+ check
+
+---
+ drivers/gpu/drm/sun4i/sun4i_rgb.c  | 3 ---
+ drivers/gpu/drm/sun4i/sun4i_tcon.c | 1 +
+ 2 files changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun4i_rgb.c b/drivers/gpu/drm/sun4i/sun4i_rgb.c
+index 386d7fbff..a901ec689 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_rgb.c
++++ b/drivers/gpu/drm/sun4i/sun4i_rgb.c
+@@ -116,9 +116,6 @@ static enum drm_mode_status sun4i_rgb_mode_valid(struct drm_encoder *crtc,
+ 	if (!rgb->bridge)
+ 		goto out;
+ 
+-	if(connector->connector_type == DRM_MODE_CONNECTOR_Unknown)
+-		goto out;
+-
+ 	tcon->dclk_min_div = 6;
+ 	tcon->dclk_max_div = 127;
+ 	rounded_rate = clk_round_rate(tcon->dclk, rate);
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+index 0168283eb..ce9846c91 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+@@ -1424,6 +1424,7 @@ static const struct sun4i_tcon_quirks suniv_f1c100s_quirks = {
+ 	 * The F1C100s SoC has a second channel in TCON, but the clock input of
+ 	 * it is not documented.
+ 	 */
++	.has_channel_0		= true,
+ 	/* .has_channel_1	= true, */
+ };
+ 
+-- 
+2.25.1
+

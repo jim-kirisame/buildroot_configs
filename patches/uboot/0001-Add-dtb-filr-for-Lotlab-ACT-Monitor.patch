@@ -1,0 +1,25 @@
+From 5e01ce95aff70cb85c2f2b2b5c2dcebbd135c932 Mon Sep 17 00:00:00 2001
+From: jiangming1399 <jiangming1399@163.com>
+Date: Sat, 14 Mar 2020 10:53:03 +0800
+Subject: [PATCH 1/2] Add dtb filr for Lotlab ACT Monitor
+
+---
+ arch/arm/dts/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+index 0e2ffdb..a17586d 100644
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -485,6 +485,8 @@ dtb-$(CONFIG_MACH_SUN9I) += \
+ 	sun9i-a80-optimus.dtb \
+ 	sun9i-a80-cubieboard4.dtb \
+ 	sun9i-a80-cx-a99.dtb
++dtb-$(CONFIG_MACH_SUNIV) += \
++	suniv-f1c100s-lotlab-act-monitor.dtb
+ 
+ dtb-$(CONFIG_VF610) += vf500-colibri.dtb \
+ 	vf610-colibri.dtb \
+-- 
+2.25.1
+

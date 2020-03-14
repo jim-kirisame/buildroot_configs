@@ -1,0 +1,50 @@
+From ca385ef25b34b8486ba7307800404404c721f971 Mon Sep 17 00:00:00 2001
+From: jiangming1399 <jiangming1399@163.com>
+Date: Sat, 14 Mar 2020 11:05:40 +0800
+Subject: [PATCH 1/2] suniv: add pwm for suniv, fix watchdog regulator mistake.
+
+---
+ arch/arm/boot/dts/suniv-f1c100s.dtsi | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+index 867b44008..bdca2e790 100644
+--- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
++++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+@@ -225,6 +225,14 @@
+ 				pins = "PF0", "PF1", "PF2", "PF3", "PF4", "PF5";
+ 				function = "mmc0";
+ 			};
++			pwm0_pins: pwm0 {
++				pins = "PE12";
++				function = "pwm0";
++			};
++			pwm1_pins: pwm1 {
++				pins = "PE6";
++				function = "pwm1";
++			};
+ 		};
+ 
+ 		timer@1c20c00 {
+@@ -234,9 +242,17 @@
+ 			clocks = <&osc24M>;
+ 		};
+ 
++		pwm: pwm@1c21000 {
++			compatible = "allwinner,sun7i-a20-pwm";
++			reg = <0x01c21000 0xC>;
++			clocks = <&osc24M>;
++			#pwm-cells = <3>;
++			status = "disabled";
++		};
++
+ 		wdt: watchdog@1c20ca0 {
+ 			compatible = "allwinner,suniv-f1c100s-wdt",
+-				     "allwinner,sun4i-a10-wdt";
++				     "allwinner,sun6i-a31-wdt";
+ 			reg = <0x01c20ca0 0x20>;
+ 		};
+ 
+-- 
+2.25.1
+
