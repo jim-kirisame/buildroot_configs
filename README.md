@@ -1,3 +1,27 @@
-# Lotlab ACT Monitor Buildroot 
+# Lotlab Boards Buildroot config
 
-Board configuration for buildroot.
+Lotlab的板子配置
+
+## 用法
+
+```
+cp ./configs/* $PATH_TO_BUILDROOT/configs/
+cd $$PATH_TO_BUILDROOT
+make BR2_EXTERNAL=$PATH_TO_THIS_FOLDER menuconfig
+
+make lotlab_fam_defconfig # 载入某个指定硬件的defconfig
+```
+
+## 扩展脚本
+
+```
+#!/bin/sh
+
+BUILDROOT_DEFCONFIG=$PATH_TO_THIS_FOLDER/configs/lotlab_fam_defconfig
+
+make linux-update-defconfig
+make uboot-update-defconfig
+make busybox-update-config
+make savedefconfig
+cp -f ./defconfig $BUILDROOT_DEFCONFIG
+```
