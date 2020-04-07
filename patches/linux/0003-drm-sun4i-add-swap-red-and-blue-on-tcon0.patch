@@ -1,0 +1,72 @@
+From adbe5b4615ed355fdd76465b0e6b89de2e9f19a4 Mon Sep 17 00:00:00 2001
+From: jiangming1399 <jiangming1399@163.com>
+Date: Tue, 7 Apr 2020 16:51:31 +0800
+Subject: [PATCH] [drm] sun4i: add swap red and blue on tcon0
+
+---
+ drivers/gpu/drm/sun4i/sun4i_tcon.c | 13 +++++++++++++
+ drivers/gpu/drm/sun4i/sun4i_tcon.h |  3 +++
+ 2 files changed, 16 insertions(+)
+
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+index ce9846c91..b024312b3 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+@@ -419,6 +419,12 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
+ 			   SUN4I_TCON0_CTL_CLK_DELAY_MASK,
+ 			   SUN4I_TCON0_CTL_CLK_DELAY(clk_delay));
+ 
++	if (tcon->swap_red_blue) {
++		regmap_update_bits(tcon->regs, SUN4I_TCON0_CTL_REG,
++				SUN4I_TCON0_CTL_SWAP,
++				SUN4I_TCON0_CTL_SWAP);
++	}
++
+ 	/*
+ 	 * This is called a backporch in the register documentation,
+ 	 * but it really is the back porch + hsync
+@@ -498,6 +504,12 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
+ 			   SUN4I_TCON0_CTL_CLK_DELAY_MASK,
+ 			   SUN4I_TCON0_CTL_CLK_DELAY(clk_delay));
+ 
++	if (tcon->swap_red_blue) {
++		regmap_update_bits(tcon->regs, SUN4I_TCON0_CTL_REG,
++				SUN4I_TCON0_CTL_SWAP,
++				SUN4I_TCON0_CTL_SWAP);
++	}
++
+ 	/*
+ 	 * This is called a backporch in the register documentation,
+ 	 * but it really is the back porch + hsync
+@@ -1103,6 +1115,7 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
+ 	tcon->dev = dev;
+ 	tcon->id = engine->id;
+ 	tcon->quirks = of_device_get_match_data(dev);
++	tcon->swap_red_blue = of_property_read_bool(dev->of_node, "swap-red-blue");
+ 
+ 	tcon->lcd_rst = devm_reset_control_get(dev, "lcd");
+ 	if (IS_ERR(tcon->lcd_rst)) {
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
+index f9f1fe80b..fe8953fe0 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
+@@ -53,6 +53,7 @@
+ #define SUN4I_TCON0_CTL_TCON_ENABLE			BIT(31)
+ #define SUN4I_TCON0_CTL_IF_MASK				GENMASK(25, 24)
+ #define SUN4I_TCON0_CTL_IF_8080				(1 << 24)
++#define SUN4I_TCON0_CTL_SWAP				BIT(23)
+ #define SUN4I_TCON0_CTL_CLK_DELAY_MASK			GENMASK(8, 4)
+ #define SUN4I_TCON0_CTL_CLK_DELAY(delay)		((delay << 4) & SUN4I_TCON0_CTL_CLK_DELAY_MASK)
+ #define SUN4I_TCON0_CTL_SRC_SEL_MASK			GENMASK(2, 0)
+@@ -259,6 +260,8 @@ struct sun4i_tcon {
+ 	/* Associated crtc */
+ 	struct sun4i_crtc		*crtc;
+ 
++	bool			swap_red_blue;
++
+ 	int				id;
+ 
+ 	/* TCON list management */
+-- 
+2.26.0
+

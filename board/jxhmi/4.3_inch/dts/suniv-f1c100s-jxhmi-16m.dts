@@ -125,6 +125,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&lcd_rgb666_pins>;
 	status = "okay";
+	swap-red-blue;
 };
 
 &tcon0_out {
