@@ -1,0 +1,44 @@
+From e6bbc4ce18aaee52ed740925194c804c78c72ee8 Mon Sep 17 00:00:00 2001
+From: jiangming1399 <jiangming1399@163.com>
+Date: Tue, 7 Apr 2020 17:59:18 +0800
+Subject: [PATCH] suniv: add devicetree binding for touchpanel
+
+---
+ arch/arm/boot/dts/suniv-f1c100s.dtsi | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+index bdca2e790..2149b6600 100644
+--- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
++++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+@@ -216,6 +216,11 @@
+ 				function = "lcd";
+ 			};
+ 
++			rtp_pins: rtp-pins {
++				pins = "PA0", "PA1", "PA2", "PA3";
++				function = "rtp";
++			};
++
+ 			uart0_pe_pins: uart0-pe-pins {
+ 				pins = "PE0", "PE1";
+ 				function = "uart0";
+@@ -256,6 +261,15 @@
+ 			reg = <0x01c20ca0 0x20>;
+ 		};
+ 
++		rtp: rtp@1c24800 {
++			compatible = "allwinner,sun6i-a31-ts";
++			reg = <0x01c24800 0x100>;
++			interrupts = <20>;
++			allwinner,ts-attached;
++			#thermal-sensor-cells = <0>;
++			status = "disabled";
++		};
++
+ 		uart0: serial@1c25000 {
+ 			compatible = "snps,dw-apb-uart";
+ 			reg = <0x01c25000 0x400>;
+-- 
+2.26.0
+

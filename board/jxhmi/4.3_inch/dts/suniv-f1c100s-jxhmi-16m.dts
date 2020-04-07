@@ -40,23 +40,6 @@
 		brightness-levels = <0 4 8 16 32 64 128 255>;
 		default-brightness-level = <6>;
 	};
-
-	soc {
-		rtp: rtp@1c25000 {
-			compatible = "allwinner,sun4i-a10-ts";
-			reg = <0x01c24800 0x100>;
-			interrupts = <20>;
-			allwinner,ts-attached;
-			#thermal-sensor-cells = <0>;
-		};
-
-		pio {
-			rtp_pins: rtp-pins {
-				pins = "PA0", "PA1", "PA2", "PA3";
-				function = "rtp";
-			};
-		};
-	};
 };
 
 &de {
