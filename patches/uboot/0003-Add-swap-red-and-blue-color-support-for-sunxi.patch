@@ -1,0 +1,62 @@
+From d783bc910e14f8e56c20f97870c26043d25f9c82 Mon Sep 17 00:00:00 2001
+From: jiangming1399 <jiangming1399@163.com>
+Date: Tue, 7 Apr 2020 15:13:54 +0800
+Subject: [PATCH] Add swap red and blue color support for sunxi.
+
+---
+ arch/arm/include/asm/arch-sunxi/lcdc.h | 1 +
+ arch/arm/mach-sunxi/Kconfig            | 6 ++++++
+ drivers/video/sunxi/lcdc.c             | 6 ++++++
+ 3 files changed, 13 insertions(+)
+
+diff --git a/arch/arm/include/asm/arch-sunxi/lcdc.h b/arch/arm/include/asm/arch-sunxi/lcdc.h
+index 90216bc..1fef582 100644
+--- a/arch/arm/include/asm/arch-sunxi/lcdc.h
++++ b/arch/arm/include/asm/arch-sunxi/lcdc.h
+@@ -77,6 +77,7 @@ struct sunxi_lcdc_reg {
+ #define SUNXI_LCDC_TCON0_FRM_TAB3		0x7f7f7777
+ #define SUNXI_LCDC_TCON0_CTRL_CLK_DELAY(n)	(((n) & 0x1f) << 4)
+ #define SUNXI_LCDC_TCON0_CTRL_ENABLE		(1 << 31)
++#define SUNXI_LCDC_TCON0_CTRL_SWAP_R_G		(1 << 23)
+ #define SUNXI_LCDC_TCON0_DCLK_DIV(n)		((n) << 0)
+ #define SUNXI_LCDC_TCON0_DCLK_ENABLE		(0xf << 28)
+ #define SUNXI_LCDC_TCON0_TIMING_H_BP(n)		(((n) - 1) << 0)
+diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+index 39eafd9..0061b2b 100644
+--- a/arch/arm/mach-sunxi/Kconfig
++++ b/arch/arm/mach-sunxi/Kconfig
+@@ -895,6 +895,12 @@ config VIDEO_LCD_PANEL_I2C_SCL
+ 	Set the SCL pin for the LCD i2c interface. This takes a string in the
+ 	format understood by sunxi_name_to_gpio, e.g. PH1 for pin 1 of port H.
+ 
++config VIDEO_LCD_SWAP_R_B
++	bool "Swap red color and blue color for LCD panel"
++	depends on VIDEO_SUNXI
++	default n
++	---help---
++	Set this if the red and blue color is swap in your LCD panel.
+ 
+ # Note only one of these may be selected at a time! But hidden choices are
+ # not supported by Kconfig
+diff --git a/drivers/video/sunxi/lcdc.c b/drivers/video/sunxi/lcdc.c
+index 4cf3a0e..a1d4b1c 100644
+--- a/drivers/video/sunxi/lcdc.c
++++ b/drivers/video/sunxi/lcdc.c
+@@ -81,8 +81,14 @@ void lcdc_tcon0_mode_set(struct sunxi_lcdc_reg * const lcdc,
+ #endif
+ 
+ 	clk_delay = lcdc_get_clk_delay(mode, 0);
++#ifdef CONFIG_VIDEO_LCD_SWAP_R_B
+ 	writel(SUNXI_LCDC_TCON0_CTRL_ENABLE |
++		   SUNXI_LCDC_TCON0_CTRL_SWAP_R_G |
+ 	       SUNXI_LCDC_TCON0_CTRL_CLK_DELAY(clk_delay), &lcdc->tcon0_ctrl);
++#else
++	writel(SUNXI_LCDC_TCON0_CTRL_ENABLE |
++	       SUNXI_LCDC_TCON0_CTRL_CLK_DELAY(clk_delay), &lcdc->tcon0_ctrl);
++#endif
+ 
+ 	writel(SUNXI_LCDC_TCON0_DCLK_ENABLE |
+ 	       SUNXI_LCDC_TCON0_DCLK_DIV(clk_div), &lcdc->tcon0_dclk);
+-- 
+2.26.0
+
