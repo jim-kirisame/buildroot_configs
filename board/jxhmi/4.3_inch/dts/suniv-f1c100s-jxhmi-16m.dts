@@ -38,7 +38,7 @@
 		compatible = "pwm-backlight";
 		pwms = <&pwm 1 500000 0>;
 		brightness-levels = <0 4 8 16 32 64 128 255>;
-		default-brightness-level = <6>;
+		default-brightness-level = <0>;
 	};
 };
 
@@ -125,7 +125,7 @@
 };
 
 &usb_otg {
-	dr_mode = "peripheral";
+	dr_mode = "host";
 	status = "okay";
 };
 
