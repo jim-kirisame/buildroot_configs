@@ -1,0 +1,27 @@
+From be2b0f84dcb3e53453524d630d8e092244fcf723 Mon Sep 17 00:00:00 2001
+From: jiangming1399 <jiangming1399@163.com>
+Date: Fri, 10 Apr 2020 15:11:36 +0800
+Subject: [PATCH] f1c100s: add pinctrl for uart2 in pe port
+
+---
+ arch/arm/boot/dts/suniv-f1c100s.dtsi | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+index 2149b6600..8320a6371 100644
+--- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
++++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+@@ -225,6 +225,10 @@
+ 				pins = "PE0", "PE1";
+ 				function = "uart0";
+ 			};
++			uart2_pe_pins: uart2-pe-pins {
++				pins = "PE7", "PE8";
++				function = "uart2";
++			};
+ 
+ 			mmc0_pins: mmc0-pins {
+ 				pins = "PF0", "PF1", "PF2", "PF3", "PF4", "PF5";
+-- 
+2.26.0
+
