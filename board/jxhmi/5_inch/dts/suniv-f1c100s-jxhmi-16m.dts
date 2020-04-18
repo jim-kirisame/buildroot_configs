@@ -87,13 +87,13 @@
 
 			partition@50000 {
 				label = "kernel";
-				reg = <0x50000 0x2b0000>;
+				reg = <0x50000 0x330000>;
 				read-only;
 			};
 
-			partition@280000 {
+			partition@380000 {
 				label = "rootfs";
-				reg = <0x280000 0xd00000>;
+				reg = <0x380000 0xc00000>;
 			};
 
 			partition@f80000 {

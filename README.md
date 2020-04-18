@@ -5,8 +5,7 @@ Lotlab的板子配置
 ## 用法
 
 ```
-cp ./configs/* $PATH_TO_BUILDROOT/configs/
-cd $$PATH_TO_BUILDROOT
+cd $PATH_TO_BUILDROOT
 make BR2_EXTERNAL=$PATH_TO_THIS_FOLDER menuconfig
 
 make lotlab_fam_defconfig # 载入某个指定硬件的defconfig
