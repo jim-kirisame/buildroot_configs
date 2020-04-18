@@ -7,12 +7,15 @@
 case "$1" in
   start)
 	printf "Starting demo: "
-	/usr/lib/qt/examples/gui/analogclock/analogclock &
+	kmstest -D /dev/dri/card0 -M sun4i-drm
+	/usr/bin/screen_test &
+	cat /sys/class/backlight/backlight/max_brightness > /sys/class/backlight/backlight/brightness
 	[ $? = 0 ] && echo "OK" || echo "FAIL"
 	;;
   stop)
 	printf "Stopping demo: "
-	/usr/bin/killall analogclock
+	/usr/bin/killall screen_test
+	echo 0 > /sys/class/backlight/backlight/brightness
 	[ $? = 0 ] && echo "OK" || echo "FAIL"
 	;;
   restart|reload)
