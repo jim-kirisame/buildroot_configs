@@ -1,0 +1,25 @@
+From 9fd69239909a36b040bfd7609090060f4b5bcb14 Mon Sep 17 00:00:00 2001
+From: jiangming1399 <jiangming1399@163.com>
+Date: Sat, 18 Apr 2020 11:24:30 +0800
+Subject: [PATCH] [suniv] change spl_spi speed to 50mhz.
+
+---
+ arch/arm/mach-sunxi/spl_spi_sunxi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/mach-sunxi/spl_spi_sunxi.c b/arch/arm/mach-sunxi/spl_spi_sunxi.c
+index aae04ac..c8f125f 100644
+--- a/arch/arm/mach-sunxi/spl_spi_sunxi.c
++++ b/arch/arm/mach-sunxi/spl_spi_sunxi.c
+@@ -124,7 +124,7 @@ static void spi0_enable_clock(void)
+ 	writel((1 << 31), CCM_SPI0_CLK);
+ #else
+ 	/* Divide by 32, clock source is AHB clock 200MHz */
+-	writel(SPI0_CLK_DIV_BY_32, IS_ENABLED(CONFIG_SUNXI_GEN_SUN6I) ?
++	writel(SPI0_CLK_DIV_BY_4, IS_ENABLED(CONFIG_SUNXI_GEN_SUN6I) ?
+ 				  SUN6I_SPI0_CCTL : SUN4I_SPI0_CCTL);
+ #endif
+ 
+-- 
+2.26.0
+
