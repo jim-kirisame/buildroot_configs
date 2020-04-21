@@ -42,7 +42,17 @@
 		default-brightness-level = <6>;
 		enable-gpios = <&pio 4 5 GPIO_ACTIVE_HIGH>;
 	};
-
+	chosen {
+		simplefb_lcd: framebuffer-lcd0 {
+			compatible = "allwinner,simple-framebuffer",
+				     "simple-framebuffer";
+			allwinner,pipeline = "de_be0-lcd0";
+			clocks = <&ccu CLK_BUS_LCD>, <&ccu CLK_BUS_DE_BE>,
+				 <&ccu CLK_TCON>, <&ccu CLK_DE_BE>,
+				 <&ccu CLK_DRAM_DE_BE>;
+			status = "okay";
+		};
+	};
 };
 
 &de {

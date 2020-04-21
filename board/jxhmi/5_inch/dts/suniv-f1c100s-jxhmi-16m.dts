@@ -40,6 +40,17 @@
 		brightness-levels = <0 4 8 16 32 64 128 255>;
 		default-brightness-level = <0>;
 	};
+	chosen {
+		simplefb_lcd: framebuffer-lcd0 {
+			compatible = "allwinner,simple-framebuffer",
+				     "simple-framebuffer";
+			allwinner,pipeline = "de_be0-lcd0";
+			clocks = <&ccu CLK_BUS_LCD>, <&ccu CLK_BUS_DE_BE>,
+				 <&ccu CLK_TCON>, <&ccu CLK_DE_BE>,
+				 <&ccu CLK_DRAM_DE_BE>;
+			status = "okay";
+		};
+	};
 };
 
 &de {
