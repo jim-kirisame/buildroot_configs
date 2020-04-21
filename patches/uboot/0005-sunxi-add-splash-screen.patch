@@ -1,0 +1,89 @@
+From 0fd441730e1f6cbb47fe14eb0e5600e9920c9b71 Mon Sep 17 00:00:00 2001
+From: jiangming1399 <jiangming1399@163.com>
+Date: Tue, 21 Apr 2020 23:05:42 +0800
+Subject: [PATCH] [sunxi] add splash screen
+
+---
+ arch/arm/mach-sunxi/Kconfig    |  6 ++++++
+ board/sunxi/board.c            | 17 +++++++++++++++++
+ include/configs/sunxi-common.h | 13 +++++++++++++
+ 3 files changed, 36 insertions(+)
+
+diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+index 0061b2b..45841a0 100644
+--- a/arch/arm/mach-sunxi/Kconfig
++++ b/arch/arm/mach-sunxi/Kconfig
+@@ -925,6 +925,12 @@ config VIDEO_DE2
+ 	Say y here if you want to build DE2 video driver which is present on
+ 	newer SoCs. Currently only HDMI output is supported.
+ 
++config SPLASH_SOURCE_SF_OFFSET
++	hex "Splash screen offset in SPI-Flash"
++	depends on VIDEO_SUNXI
++	default 0
++	---help---
++	Specific the location of splash screen in SPI-Flash.
+ 
+ choice
+ 	prompt "LCD panel support"
+diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+index 4379d08..ba083ba 100644
+--- a/board/sunxi/board.c
++++ b/board/sunxi/board.c
+@@ -36,6 +36,7 @@
+ #include <spl.h>
+ #include <sy8106a.h>
+ #include <asm/setup.h>
++#include <splash.h>
+ 
+ #if defined CONFIG_VIDEO_LCD_PANEL_I2C && !(defined CONFIG_SPL_BUILD)
+ /* So that we can use pin names in Kconfig and sunxi_name_to_gpio() */
+@@ -914,3 +915,19 @@ int board_fit_config_name_match(const char *name)
+ 	return strcmp(name, cmp_str);
+ }
+ #endif
++
++#ifdef CONFIG_SPLASH_SCREEN
++static struct splash_location sunxi_splash_locations[] = {
++	{
++		.name = "sf",
++		.storage = SPLASH_STORAGE_SF,
++		.flags = SPLASH_STORAGE_RAW,
++		.offset = CONFIG_SPLASH_SOURCE_SF_OFFSET,
++	}
++};
++int splash_screen_prepare(void)
++{
++	return splash_source_load(sunxi_splash_locations,
++				  ARRAY_SIZE(sunxi_splash_locations));
++}
++#endif
+diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
+index 9e55254..ec4659b 100644
+--- a/include/configs/sunxi-common.h
++++ b/include/configs/sunxi-common.h
+@@ -538,8 +538,21 @@ extern int soft_i2c_gpio_scl;
+ #define FDTFILE CONFIG_DEFAULT_DEVICE_TREE ".dtb"
+ #endif
+ 
++#ifdef CONFIG_VIDEO
++#define CONFIG_VIDEO_BMP_RLE8
++#define CONFIG_BMP_16BPP
++#define CONFIG_BMP_24BPP
++#define CONFIG_BMP_32BPP
++#define CONFIG_SPLASH_SCREEN
++#define CONFIG_SPLASH_SOURCE
++#define SPLASHIMAGE_ENV_SETTINGS "splashimage=" __stringify(SDRAM_OFFSET(0c80000)) "\0"
++#else
++#define SPLASHIMAGE_ENV_SETTINGS
++#endif
++
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	CONSOLE_ENV_SETTINGS \
++	SPLASHIMAGE_ENV_SETTINGS \
+ 	MEM_LAYOUT_ENV_SETTINGS \
+ 	DFU_ALT_INFO_RAM \
+ 	"fdtfile=" FDTFILE "\0" \
+-- 
+2.26.0
+

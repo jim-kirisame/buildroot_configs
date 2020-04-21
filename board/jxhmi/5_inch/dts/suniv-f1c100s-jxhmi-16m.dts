@@ -38,7 +38,7 @@
 		compatible = "pwm-backlight";
 		pwms = <&pwm 1 500000 0>;
 		brightness-levels = <0 4 8 16 32 64 128 255>;
-		default-brightness-level = <0>;
+		default-brightness-level = <6>;
 	};
 	chosen {
 		simplefb_lcd: framebuffer-lcd0 {
@@ -86,19 +86,19 @@
 
 			partition@0 {
 				label = "u-boot";
-				reg = <0x000000 0x40000>;
-				read-only;
-			};
-
-			partition@40000 {
-				label = "dtb";
-				reg = <0x40000 0x10000>;
+				reg = <0x000000 0x50000>;
 				read-only;
 			};
 
 			partition@50000 {
+				label = "dtb";
+				reg = <0x50000 0x10000>;
+				read-only;
+			};
+
+			partition@60000 {
 				label = "kernel";
-				reg = <0x50000 0x330000>;
+				reg = <0x60000 0x320000>;
 				read-only;
 			};
 
