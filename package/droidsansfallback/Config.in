@@ -1,0 +1,4 @@
+config BR2_PACKAGE_DROIDSANSFALLBACK
+    bool "DroidSansFallback"
+    help 
+        Add DroidSansFallback font
