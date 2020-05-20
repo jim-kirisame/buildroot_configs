@@ -1,7 +1,23 @@
 #!/bin/sh
 
+mount -t proc none /proc
+
+# process kernel and passed in command-line parameters
+set -- $(cat /proc/cmdline) "$@"
+for arg in "$@"; do
+  case "$arg" in
+    overlay.src=*)
+      mountsrc="${arg#overlay.src=}"
+      ;;
+    overlay.type=*)
+      mounttype="-t ${arg#overlay.type=}"
+      ;;
+  esac
+done
+
+
 # mount the new rootfs
-mount -t jffs2 /dev/mtdblock4 /overlay
+mount $mounttype $mountsrc /overlay
 
 mkdir -p /overlay/rootfs /overlay/rw /overlay/work
 mount -t overlay overlay /overlay/rootfs -o lowerdir=/,upperdir=/overlay/rw,workdir=/overlay/work

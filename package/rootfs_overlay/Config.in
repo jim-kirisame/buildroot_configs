@@ -1,0 +1,4 @@
+config BR2_PACKAGE_ROOTFS_OVERLAY
+    bool "RootFS Overlay"
+    help 
+        Enable overlayfs on rootfs
