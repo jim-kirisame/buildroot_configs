@@ -1,2 +1,4 @@
 source "$BR2_EXTERNAL_LOTLAB_PATH/package/droidsansfallback/Config.in"
 source "$BR2_EXTERNAL_LOTLAB_PATH/package/rootfs_overlay/Config.in"
+source "$BR2_EXTERNAL_LOTLAB_PATH/package/act_monitor/Config.in"
+source "$BR2_EXTERNAL_LOTLAB_PATH/package/libwebsockets4/Config.in"

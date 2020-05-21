@@ -12,7 +12,7 @@ DROIDSANSFALLBACK_DEPENDENCIES = host-genimage
 
 define DROIDSANSFALLBACK_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/usr/share/fonts/TTF
-	cp $(@D)/* $(TARGET_DIR)/usr/share/fonts/TTF
+	$(INSTALL) -D -m 0644 $(@D)/* $(TARGET_DIR)/usr/share/fonts/TTF
 endef
 
 $(eval $(generic-package))

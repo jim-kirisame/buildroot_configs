@@ -1,0 +1,10 @@
+config BR2_PACKAGE_ACT_MONITOR
+    bool "FFXIV Act Monitor"
+    help 
+        Add FFXIV Act Monitor
+    select BR2_PACKAGE_DROIDSANSFALLBACK
+    select BR2_PACKAGE_CAIRO
+    select BR2_PACKAGE_LIBDRM
+    select BR2_PACKAGE_LIBWEBSOCKETS4
+    select BR2_PACKAGE_JANSSON
+
